@@ -782,3 +782,72 @@ MIRRA PREVIEW
 .product-card button:hover{
     background:#D91A68;
 }
+/* MODAL PAGO */
+
+.payment-modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.payment-box{
+    background:linear-gradient(135deg, #F7E7B4, #D4AF37, #F5D76E);
+    width:420px;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 5px 25px rgba(0,0,0,0.2);
+}
+
+.payment-box h2{
+    font-size:35px;
+    margin-bottom:15px;
+    color:#111;
+}
+
+.payment-box p{
+    margin-bottom:20px;
+    color:#333;
+}
+
+.payment-box select,
+.payment-box input{
+    width:100%;
+    padding:15px;
+    margin-bottom:20px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+}
+
+.payment-box button{
+    width:100%;
+    padding:15px;
+    background:#C9A227;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.payment-box button:hover{
+    background:#111;
+}
+
+.cerrar{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:22px;
+    cursor:pointer;
+}
