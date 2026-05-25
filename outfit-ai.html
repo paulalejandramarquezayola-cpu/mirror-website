@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mirror AI Outfit</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="ai-page">
+
+<section class="ai-generator">
+
+    <div class="magic-orb">
+        ✨
+    </div>
+
+    <h1>Mirror Outfit Creator IA</h1>
+
+    <p>
+        Sube prendas, usa tu cámara o habla con MIRRA
+        para crear outfits mágicos.
+    </p>
+
+    <!-- SUBIR IMAGEN -->
+<div class="tools-container">
+
+    <!-- SUBIR ARCHIVO -->
+
+    <label for="upload" class="tool-box">
+        📁 Subir archivo
+        <input type="file" id="upload" accept="image/*" hidden>
+    </label>
+
+    <!-- CÁMARA -->
+
+    <button onclick="abrirCamara()" class="tool-box">
+        📸 Abrir cámara
+    </button>
+
+    <!-- CERRAR CÁMARA -->
+
+    <button onclick="cerrarCamara()" class="tool-box close-tool">
+        ❌ Cerrar cámara
+    </button>
+
+    <!-- MICRÓFONO -->
+
+    <button onclick="usarMicrofono()" class="tool-box">
+        🎤 Micrófono
+    </button>
+
+    <!-- CERRAR MICRO -->
+
+    <button onclick="cerrarMicrofono()" class="tool-box close-tool">
+        🔇 Apagar micrófono
+    </button>
+
+</div>
+
+<video id="video" autoplay></video>
+
+<div id="speech-result"></div>
+
+    <button onclick="mostrarResultado()" class="result-btn">
+    ✨ Ver resultado IA
+</button>
+
+<div id="loading" class="loading-animation">
+
+    ✨ ⭐ Analizando combinación ⭐ ✨
+
+</div>
+
+<div id="resultado-ia" class="resultado-ia">
+
+    <h2>Resultado IA ✨</h2>
+
+    <p id="mensaje"></p>
+
+</div>
+
+<script>
+
+console.log("Mirror funcionando correctamente ✨");
+
+const upload = document.getElementById("upload");
+
+let mensajeIA = "";
+let recognition = null;
+let currentStream = null;
+
+
+// ANALIZAR IMAGEN
+
+upload.addEventListener("change", function(){
+
+    const fileName =
+    upload.files[0].name.toLowerCase();
+
+    document.getElementById("loading").style.display =
+    "flex";
+
+    document.getElementById("resultado-ia").style.display =
+    "none";
+
+    setTimeout(()=>{
+
+        if(fileName.includes("negro")){
+
+            mensajeIA =
+            "✨ Sí combina perfectamente. El negro combina con todos los colores.";
+
+        }
+
+        else if(
+        fileName.includes("rojo") ||
+        fileName.includes("azul")){
+
+            mensajeIA =
+            "❤️💙 Rojo y azul crean un outfit moderno y elegante.";
+
+        }
+
+        else if(fileName.includes("rosado")){
+
+            mensajeIA =
+            "🌸 El rosado combina hermoso con amarillo y blanco.";
+
+        }
+
+        else if(fileName.includes("verde")){
+
+            mensajeIA =
+            "💚 El verde combina perfecto con azul, negro y blanco.";
+
+        }
+
+        else{
+
+            mensajeIA =
+            "✨ MIRRA recomienda accesorios dorados para este outfit.";
+
+        }
+
+        document.getElementById("loading").style.display =
+        "none";
+
+        document.getElementById("resultado-ia").style.display =
+        "block";
+
+        document.getElementById("mensaje").innerText =
+        mensajeIA;
+
+    }, 3000);
+
+});
+
+
+// RESULTADO
+
+function mostrarResultado(){
+
+    if(mensajeIA === ""){
+
+        alert("✨ Primero sube una prenda.");
+
+        return;
+
+    }
+
+    document.getElementById("resultado-ia").style.display =
+    "block";
+
+}
+
+
+// ABRIR CÁMARA
+
+async function abrirCamara(){
+
+    try{
+
+        currentStream =
+        await navigator.mediaDevices.getUserMedia({
+            video:true
+        });
+
+        document.getElementById("video").srcObject =
+        currentStream;
+
+    }
+
+    catch(error){
+
+        alert("No se pudo abrir la cámara 😭");
+
+    }
+
+}
+
+
+// CERRAR CÁMARA
+
+function cerrarCamara(){
+
+    if(currentStream){
+
+        currentStream.getTracks().forEach(track => {
+
+            track.stop();
+
+        });
+
+        document.getElementById("video").srcObject =
+        null;
+
+    }
+
+}
+
+
+// MICRÓFONO
+
+function usarMicrofono(){
+
+    recognition =
+    new(
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition
+    )();
+
+    recognition.lang = "es-ES";
+
+    recognition.start();
+
+    recognition.onresult = function(event){
+
+        const texto =
+        event.results[0][0].transcript;
+
+        document.getElementById("speech-result")
+        .innerHTML =
+        "🎤 " + texto;
+
+    }
+
+}
+
+
+// APAGAR MICRO
+
+function cerrarMicrofono(){
+
+    if(recognition){
+
+        recognition.stop();
+
+        document.getElementById("speech-result")
+        .innerHTML =
+        "🔇 Micrófono apagado";
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
